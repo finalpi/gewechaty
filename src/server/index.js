@@ -87,7 +87,7 @@ export const startServe = (option) => {
         }else{
           if (type === MessageType.Quote) {
             let obj = Message.getXmlToJson(msg.text())
-            msg.trueText = obj.msg.appmsg.title
+            msg._text = obj.msg.appmsg.title
             msg.refer = obj.msg.appmsg.refermsg
           }
           bot.emit('message', msg)

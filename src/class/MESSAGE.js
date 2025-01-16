@@ -16,6 +16,7 @@ export class Message {
   constructor(data) {
     // 从 JSON 数据结构中提取所需信息
     this.wxid = data.Wxid;
+    this._xml = data.Data.Content.string
 
     if(data.Data.FromUserName.string.includes('@chatroom')){ // 新版本微信
       this.isRoom = true;
@@ -87,7 +88,7 @@ export class Message {
   }
   // 消息类型
   type () {
-    return Message.getType(this._type, this.text())
+    return Message.getType(this._type, this._xml)
   }
   // 是否是自己发的消息
   self () {

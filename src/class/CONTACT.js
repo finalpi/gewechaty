@@ -1,4 +1,4 @@
-import {say} from '@/action/common'
+import {quote, say} from '@/action/common'
 import {setRemark, find, findAll, contactSync} from '@/action/contact'
 import {ResponseMsg} from '@/class/MESSAGE.js'
 export class Contact {
@@ -21,6 +21,17 @@ export class Contact {
 
   async say (textOrContactOrFileOrUrl) { // 回复消息
     const res = await say(textOrContactOrFileOrUrl, this._wxid)
+    return new ResponseMsg(res)
+  }
+
+  async quoteSay (text,replyMsgId,fromId,content) { // 回复消息
+    let msg = {
+      title: text,
+      msgid: replyMsgId,
+      wxid: fromId,
+      content: content
+    }
+    const res = await quote(msg, this._wxid)
     return new ResponseMsg(res)
   }
 

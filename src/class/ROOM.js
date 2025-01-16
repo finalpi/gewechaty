@@ -1,4 +1,4 @@
-import { say, getWxId } from '@/action/common.js';
+import {say, getWxId, quote} from '@/action/common.js';
 import {inviteMember, delMember, findAll, find, 
   changeRoomName, getAnnouncement, setAnnouncement, getQrcode, setRoomNickName,
   getRoomMemberInfo, getRoomMemberList, createRoom, quitRoom, updateRoomInfo} from '@/action/room.js'
@@ -27,6 +27,17 @@ export class Room {
   }
   async say (textOrContactOrFileOrUrl, ats) { // 回复消息
     const res = await say(textOrContactOrFileOrUrl, this.chatroomId, ats)
+    return new ResponseMsg(res)
+  }
+
+  async quoteSay (text,replyMsgId,fromId,content) { // 回复消息
+    let msg = {
+      title: text,
+      msgid: replyMsgId,
+      wxid: fromId,
+      content: content
+    }
+    const res = await quote(msg, this.chatroomId)
     return new ResponseMsg(res)
   }
 
