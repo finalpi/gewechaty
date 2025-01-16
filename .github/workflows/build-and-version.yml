@@ -29,15 +29,6 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      # 自动增加版本号
-      - name: Bump Version
-        run: |
-          npm version patch --no-git-tag-version
-          git config user.name "finalpi"
-          git config user.email "46010917+finalpi@users.noreply.github.com"
-          git add package.json package-lock.json
-          git commit -m "chore: bump version"
-
       # 打包成 tgz
       - name: Create .tgz Package
         run: npm pack
