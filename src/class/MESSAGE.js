@@ -16,7 +16,7 @@ export class Message {
   constructor(data) {
     // 从 JSON 数据结构中提取所需信息
     this.wxid = data.Wxid;
-    
+
     if(data.Data.FromUserName.string.includes('@chatroom')){ // 新版本微信
       this.isRoom = true;
       this.roomId = data.Data.FromUserName.string;
@@ -290,6 +290,7 @@ export class Message {
 export class ResponseMsg {
   constructor(obj) {
     Object.assign(this, obj);
+    this.newMsgId = obj.newMsgId + ''
   }
   revoke () {
     return revoke(this)

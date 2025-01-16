@@ -68,7 +68,7 @@ export const startServe = (option) => {
           process.exit(1);
         }
       }
-      
+
       // 判断是否是微信消息
       if(body.Appid && body.TypeName === 'AddMsg'){ // 大部分消息类型都为 AddMsg
         // 消息hanlder
@@ -85,6 +85,11 @@ export const startServe = (option) => {
         }else if(type === MessageType.Revoke){ // 消息撤回
           bot.emit('revoke', msg)
         }else{
+          if (type === MessageType.Quote) {
+            let obj = Message.getXmlToJson(msg.text())
+            msg.trueText = obj.msg.appmsg.title
+            msg.refer = obj.msg.appmsg.refermsg
+          }
           bot.emit('message', msg)
         }
       }else if(body && body.TypeName === 'ModContacts'){ // 好友消息， 群信息变更
@@ -107,7 +112,7 @@ export const startServe = (option) => {
               roomEmitter.emit(`leave:${id}`, new Room(newInfo), member)
             })
           }
-          
+
           if(body.Data.NickName.string !== oldInfo.nickName){ // 群名称变动
             roomEmitter.emit(`topic:${id}`, new Room(newInfo), body.Data.NickName.string, oldInfo.nickName)
           }
@@ -117,10 +122,10 @@ export const startServe = (option) => {
         bot.emit('other', body)
       }
 
-      // "TypeName": "ModContacts", 好友消息， 群信息变更 
+      // "TypeName": "ModContacts", 好友消息， 群信息变更
       // "TypeName": "DelContacts" 删除好友
       // "TypeName": "DelContacts" 退出群聊
-      
+
     }catch(e){
       console.error(e)
     }
@@ -132,9 +137,9 @@ export const startServe = (option) => {
   });
 
   // app.use(bodyParser());
-  
-  
-  
+
+
+
   return new Promise((resolve, reject) => {
     app.listen(option.port, async (err) => {
       if(err){
@@ -152,7 +157,7 @@ export const startServe = (option) => {
           console.log('未设置appid，启动登录')
           isOnline = {ret: 200, data: false}
         }
-        
+
         if(isOnline.ret === 200 && isOnline.data === false){
           console.log('未登录')
           const loginRes = await login()
@@ -177,7 +182,7 @@ export const startServe = (option) => {
           db.connect(getAppId()+'.db')
           console.log('存在缓存数据，启用缓存')
         }
-        
+
         // 此时再启用回调地址 防止插入数据时回调
         app.use(router.routes())
         app.use(router.allowedMethods())
