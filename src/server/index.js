@@ -90,6 +90,10 @@ export const startServe = (option) => {
             msg._text = obj.msg.appmsg.title
             msg.refer = obj.msg.appmsg.refermsg
           }
+          if (type === MessageType.Emoji) {
+            let obj = Message.getXmlToJson(msg.text())
+            msg.emoji = obj.msg.emoji
+          }
           bot.emit('message', msg)
         }
       }else if(body && body.TypeName === 'ModContacts'){ // 好友消息， 群信息变更
