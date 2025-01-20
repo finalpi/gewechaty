@@ -293,6 +293,7 @@ declare module 'gewechaty' {
       // Static methods from FILEBOX.js
       static fromUrl(url: string, forceType?: string): Filebox;
       static fromFile(filepath: string, time?: number): Filebox;
+      static fromBuff(fileBuff: Buffer, fileName: string, time?: number): Filebox;
       static toDownload(url: string, type?: string, name?: string): Filebox;
       static getFileType(fileName: string): 'image' | 'video' | 'audio' | 'file' | 'unknown';
 
