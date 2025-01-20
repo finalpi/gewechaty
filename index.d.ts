@@ -29,7 +29,7 @@ declare module 'gewechaty' {
       Room: RoomStatic;
       Message: MessageStatic;
     }
-  
+
     export interface GeweBotOptions {
       debug?: boolean;
       base_api: string;
@@ -40,8 +40,9 @@ declare module 'gewechaty' {
       static?: string;
       route?: string;
       use_cache?: boolean;
+      ds_path?: string;
     }
-  
+
     export interface ContactSelf {
       city: string;
       country: string;
@@ -53,7 +54,7 @@ declare module 'gewechaty' {
       name: string;
       alias: string;
     }
-  
+
     export interface ContactSettings {
       city?: string;
       country?: string;
@@ -62,24 +63,24 @@ declare module 'gewechaty' {
       sex?: number;
       signature?: string;
     }
-  
+
     export interface PrivacySettings {
       option: number;
       open: boolean;
     }
-  
+
     export interface Device {
       client_id: string;
       device_name: string;
       device_type: string;
       login_time: number;
     }
-  
+
     export interface QRCode {
       content: string;
       url: string;
     }
-  
+
     export class Contact {
       // Properties from CONTACT.js constructor
       _name: string;
@@ -93,7 +94,7 @@ declare module 'gewechaty' {
       _avatarUrl: string;
       _isSelf: boolean;
       inviterUserName: string;
-  
+
       // Methods from CONTACT.js
       say(textOrContactOrFileOrUrl: string | Contact | Filebox | UrlLink | MiniApp): Promise<ResponseMsg>;
       name(): string;
@@ -106,38 +107,38 @@ declare module 'gewechaty' {
       avatar(): Promise<string>;
       sync(): Promise<Contact>;
       self(): boolean;
-  
+
       // Static methods
       static find(query: ContactQueryFilter): Promise<Contact | undefined>;
       static findAll(query: ContactQueryFilter): Promise<Contact[]>;
     }
-  
+
     export interface ContactStatic {
       find(query: ContactQueryFilter): Promise<Contact | undefined>;
       findAll(query: ContactQueryFilter): Promise<Contact[]>;
     }
-  
+
     export interface ContactQueryFilter {
       name?: string;
       alias?: string;
       id?: string;
     }
-  
+
     export class Friendship {
       accept(): Promise<void>;
       hello(): string;
       type(): number;
     }
-  
+
     export interface FriendshipStatic {
       search(query: string): Promise<Contact | undefined>;
       add(contact: Contact, hello: string): Promise<void>;
     }
-  
+
     export class RoomInvitation {
       accept(): Promise<void>;
     }
-  
+
     export class Room {
       // Properties from ROOM.js constructor
       chatroomId: string;
@@ -149,7 +150,7 @@ declare module 'gewechaty' {
       OwnerId: string;
       avatarImg: string;
       memberList: any[];
-  
+
       // Methods from ROOM.js
       sync(): Promise<Room>;
       say(textOrContactOrFileOrUrl: string | Contact | Filebox | UrlLink | MiniApp, ats?: Contact[] | '@all'): Promise<ResponseMsg>;
@@ -169,23 +170,23 @@ declare module 'gewechaty' {
       owner(): Promise<Contact>;
       avatar(): Promise<Filebox>;
       rename(name?: string): Promise<string>;
-  
+
       // Static methods
       static create(contactList: Contact[], topic?: string): Promise<Room>;
       static findAll(query?: RoomQueryFilter): Promise<Room[]>;
       static find(query: RoomQueryFilter): Promise<Room | undefined>;
     }
-  
+
     export interface RoomStatic {
       create(contactList: Contact[], topic?: string): Promise<Room>;
       find(query: RoomQueryFilter): Promise<Room | undefined>;
       findAll(query?: RoomQueryFilter): Promise<Room[]>;
     }
-  
+
     export interface RoomQueryFilter {
       topic?: string;
     }
-  
+
     export class Message {
       // Properties from MESSAGE.js constructor
       wxid: string;
@@ -205,7 +206,7 @@ declare module 'gewechaty' {
       _status: any | null;
       _msgSource: string | null;
       _roomInfo?: any;
-  
+
       // Methods from MESSAGE.js
       isCompanyMsg(): boolean;
       from(): Promise<Contact>;
@@ -226,7 +227,7 @@ declare module 'gewechaty' {
       toFileBox(type?: number): Promise<Filebox | null>;
       quote(title: string): Promise<void>;
 
-  
+
       // Static methods
       static getXmlToJson(xml: string): any;
       static find(query: any): Promise<Message>;
@@ -234,7 +235,7 @@ declare module 'gewechaty' {
       static getType(type: number, xml: string): number;
       static revoke(obj: any): Promise<void>;
     }
-  
+
     export interface MessageStatic {
       Type: {
         Unknown: 0;
@@ -263,57 +264,57 @@ declare module 'gewechaty' {
         RoomInvitation: number;
       };
     }
-  
+
     export class WeVideo {
       constructor(payload: WeVideoPayload);
     }
-  
+
     export interface WeVideoPayload {
       thumbUrl: string;      // 视频封面
       videoUrl: string;      // 视频文件url
       videoDuration: number; // 视频时长单位秒
     }
-  
+
     export class Voice {
       constructor(payload: VoicePayload);
     }
-  
+
     export interface VoicePayload {
       voiceUrl: string;       // 语音文件url
       voiceDuration: number;  // 语音时长(毫秒)
     }
-  
+
     export class Filebox {
       // Properties from FILEBOX.js
       url: string;
       type: string;
       name: string;
-  
+
       // Static methods from FILEBOX.js
       static fromUrl(url: string, forceType?: string): Filebox;
       static fromFile(filepath: string, time?: number): Filebox;
       static toDownload(url: string, type?: string, name?: string): Filebox;
       static getFileType(fileName: string): 'image' | 'video' | 'audio' | 'file' | 'unknown';
-  
+
       // Instance methods from FILEBOX.js
       toFile(dest: string): Promise<void>;
     }
-  
+
     export class UrlLink {
       constructor(payload: UrlLinkPayload);
     }
-  
+
     export interface UrlLinkPayload {
       title: string;
       desc?: string;
       linkUrl: string;
       thumbUrl?: string;
     }
-  
+
     export class MiniApp {
       constructor(payload: MiniAppPayload);
     }
-  
+
     export interface MiniAppPayload {
       appid: string;         // miniAppId
       description?: string;
@@ -324,36 +325,36 @@ declare module 'gewechaty' {
       title: string;
       username: string;      // userName
     }
-  
+
     export class AppMsg {
       constructor(payload: AppMsgPayload);
     }
-  
+
     export interface AppMsgPayload {
       appmsg: string;  // 小程序消息的xml字符串
     }
-  
+
     export class Emoji {
       constructor(payload: EmojiPayload);
     }
-  
+
     export interface EmojiPayload {
       emojiMd5: string;
       emojiSize: number;
     }
-  
+
     export class ResponseMsg {
       revoke(): Promise<void>;  // 消息撤回
     }
-  
+
     export interface GeweEventEmitter {
       on(event: string, listener: (...args: any[]) => void): this;
       off(event: string, listener: (...args: any[]) => void): this;
       emit(event: string, ...args: any[]): boolean;
     }
-  
+
     export type MessageType = keyof MessageStatic["Type"];
-  
+
     export interface MessageQueryFilter {
       id?: string;
       from?: Contact;
@@ -361,6 +362,6 @@ declare module 'gewechaty' {
       type?: MessageType;
       room?: Room;
     }
-  
+
     export default GeweBot;
 }
