@@ -34,7 +34,7 @@ jobs:
         run: npm pack
 
       - name: Upload Package
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: package-tgz
           path: "*.tgz"
