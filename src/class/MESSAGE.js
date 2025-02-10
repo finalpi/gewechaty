@@ -118,6 +118,14 @@ export class Message {
     return forward(this.text(), to, this.type())
   }
 
+  static forwardTo (text, to, type) {
+    if (!to) {
+      console.error('转发消息时，接收者不能为空')
+      return
+    }
+    return forward(text, to, type)
+  }
+
   date () {
     return new Date(this._date);
   }

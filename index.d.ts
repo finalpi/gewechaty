@@ -221,6 +221,7 @@ declare module 'gewechaty' {
       mention(): Promise<null>; // TODO as noted in the code
       mentionSelf(): Promise<boolean>;
       forward(to: Contact): Promise<void>;
+      static forwardTo(text:string, to: string, type: number): Promise<void>;
       date(): Date;
       age(): number;
       toContact(): Promise<null>; // TODO as noted in the code
