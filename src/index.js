@@ -33,6 +33,7 @@ export class GeweBot {
     this.file_api = this.file_api || `http://${ip}:2532/download`;
     this.route = this.route || '/getWechatCallBack'
     this.ds_path = this.ds_path || 'ds.json'
+    this.db_path = this.db_path || ''
     ds = new DS(this.ds_path)
     this.use_cache = true
     this.debug = this.debug || false

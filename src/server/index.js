@@ -171,9 +171,9 @@ export const startServe = (option) => {
           }
         }
         setCached(true)
-        if(!db.exists(getAppId()+'.db')){
+        if(!db.exists(option.db_path+getAppId()+'.db')){
           console.log('创建本地数据库，启用缓存')
-          db.connect(getAppId()+'.db')
+          db.connect(option.db_path+getAppId()+'.db')
           // 创建表
           db.createContactTable()
           db.createRoomTable()
@@ -183,7 +183,7 @@ export const startServe = (option) => {
           await cacheAllContact()
           console.log('数据初始化完毕')
         }else{
-          db.connect(getAppId()+'.db')
+          db.connect(option.db_path+getAppId()+'.db')
           console.log('存在缓存数据，启用缓存')
         }
 
