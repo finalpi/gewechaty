@@ -16,9 +16,9 @@ export class Filebox {
     const instance = new Filebox()
     const supportType = ['image', 'file']
     const type = forceType || Filebox.getFileType(url)
-    if(!supportType.includes(type)){
-      throw new Error('Filebox只支持图片和文件类型，语音和视频使用 new Audio() 或 new Video() 来创建')
-    }
+    // if(!supportType.includes(type)){
+    //   throw new Error('Filebox只支持图片和文件类型，语音和视频使用 new Audio() 或 new Video() 来创建')
+    // }
     instance.type = type
     instance.url = url
     instance.name = getFileNameFromUrl(url)
