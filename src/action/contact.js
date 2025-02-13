@@ -21,6 +21,9 @@ export const getContact = async (wxid) => { // 使用id查询
       appId: getAppId(),
       wxids: [wxid]
     })
+    if (wxid.endsWith('@openim')) {
+      // todo 企业微信
+    }
     if(!info || info.length === 0){
       console.log('未找到')
       return null

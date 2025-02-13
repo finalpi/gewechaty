@@ -14,7 +14,7 @@ import {Message} from '@/class/MESSAGE.js'
 import {Contact} from '@/class/CONTACT.js'
 import {Room} from '@/class/ROOM.js'
 import { botEmitter, roomEmitter } from '@/bot.js'
-import { getAppId } from '@/utils/auth.js';
+import {ds, getAppId} from '@/utils/auth.js';
 import {db} from '@/sql/index.js'
 import {MessageType} from '@/type/MessageType'
 import {RoomInvitation} from '@/class/ROOMINVITATION.js'
@@ -192,11 +192,18 @@ export const startServe = (option) => {
         app.use(router.allowedMethods())
 
         const res = await setUrl(callBackUrl)
+
         if(res.ret === 200){
           console.log(`设置回调地址为：${callBackUrl}`)
           console.log('服务启动成功')
           resolve({app, router})
         }else{
+          if (!res.msg) {
+            // 删除ds文件
+            ds.appid = ''
+            ds.token = ''
+            ds.save()
+          }
           console.log('回调地址设置失败，请确定gewechat能访问到回调地址网络: ', callBackUrl)
           reject(res)
           process.exit(1);
