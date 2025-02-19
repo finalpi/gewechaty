@@ -65,7 +65,16 @@ export const startServe = (option) => {
           console.log('断线重连成功')
         }else{
           console.log('断线重连失败,请重新登录！')
-          await login()
+          let loginRes = await login()
+          while(!loginRes){
+            console.log('登录失败')
+            loginRes = await login()
+          }
+          if (loginRes) {
+            botEmitter.emit('login', {
+              content: '登录成功'
+            })
+          }
         }
       }
 

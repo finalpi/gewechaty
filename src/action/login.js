@@ -12,11 +12,12 @@ export const getToken = async() => {
       if(res.ret === 200){
         setToken(res.data)
         resolve()
-      }else{ 
+      }else{
         reject()
       }
     }).catch(e => {
       reject(e)
+      process.exit(1);
     })
   })
 
@@ -50,7 +51,7 @@ const showQrcode = async() => {
   }catch(e){
     console.error(e)
     return false
-  } 
+  }
 }
 
 // 检查登录
