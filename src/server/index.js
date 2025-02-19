@@ -65,7 +65,7 @@ export const startServe = (option) => {
           console.log('断线重连成功')
         }else{
           console.log('断线重连失败,请重新登录！')
-          process.exit(1);
+          await login()
         }
       }
 
@@ -164,10 +164,10 @@ export const startServe = (option) => {
 
         if(isOnline.ret === 200 && isOnline.data === false){
           console.log('未登录')
-          const loginRes = await login()
-          if(!loginRes){
+          let loginRes = await login()
+          while(!loginRes){
             console.log('登录失败')
-            process.exit(1);
+            loginRes = await login()
           }
         }
         setCached(true)
