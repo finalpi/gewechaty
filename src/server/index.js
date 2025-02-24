@@ -82,6 +82,15 @@ export const startServe = (option) => {
       if(body.Appid && body.TypeName === 'AddMsg'){ // 大部分消息类型都为 AddMsg
         // 消息hanlder
         const msg = new Message(body)
+        // 企业消息将联系人存入数据库
+        if (msg.fromId?.includes('@openim')) {
+          db.insertContact({
+            nickName: msg._pushContent.split(':')[0].slice(0, -1),
+            userName: msg.fromId,
+            smallHeadImgUrl: 'https://raw.githubusercontent.com/finalpi/wechat2tg/wx2tg-pad/qywx.jpg',
+            bigHeadImgUrl: 'https://raw.githubusercontent.com/finalpi/wechat2tg/wx2tg-pad/qywx.jpg',
+          })
+        }
         // 发送消息
         const type = msg.type()
         if(type === MessageType.RoomInvitation){ // 群邀请

@@ -175,6 +175,9 @@ class myDB {
       if (typeof value === 'string' && value.length > maxLength) {
         return value.substring(0, maxLength);
       }
+      if (!value) {
+        return null
+      }
       return value;
     };
   
@@ -185,7 +188,7 @@ class myDB {
         smallHeadImgUrl, description, cardImgUrl, labelList, province, city, phoneNumList
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-  
+
     insertStmt.run(
       truncate(contact.userName) || null,
       truncate(contact.nickName) || null,
