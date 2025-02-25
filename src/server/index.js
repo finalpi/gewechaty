@@ -67,7 +67,8 @@ export const startServe = (option) => {
           console.log('断线重连失败,请重新登录！')
           let loginRes = await login()
           while(!loginRes){
-            console.log('登录失败')
+            console.log('登录失败,5s 后重试')
+            await new Promise(resolve => setTimeout(resolve, 5000))
             loginRes = await login()
           }
           if (loginRes) {
@@ -184,7 +185,8 @@ export const startServe = (option) => {
           console.log('未登录')
           let loginRes = await login()
           while(!loginRes){
-            console.log('登录失败')
+            console.log('登录失败,5s 后重试')
+            await new Promise(resolve => setTimeout(resolve, 5000))
             loginRes = await login()
           }
         }
