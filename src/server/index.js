@@ -55,6 +55,11 @@ export const startServe = (option) => {
       if(option.debug){
         console.log(body);
       }
+      // 兼容新版本 key 值变化
+      body.Appid = body.Appid || body.appid
+      body.TypeName = body.TypeName || body.type_name
+      body.Data = body.Data || body.data
+
       // all 事件
       bot.emit('all', body)
 
