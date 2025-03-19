@@ -20,6 +20,7 @@ import {MessageType} from '@/type/MessageType'
 import {RoomInvitation} from '@/class/ROOMINVITATION.js'
 import {getRoomLiveInfo} from '@/action/room.js'
 import { Friendship } from '@/class/FRIENDSHIP';
+import { getMyInfo } from '@/action/personal'
 export const bot = botEmitter
 export let staticUrl = 'static'
 export let proxyUrl = ''
