@@ -71,12 +71,7 @@ export const startServe = (option) => {
           console.log('断线重连成功')
         }else{
           console.log('断线重连失败,请重新登录！')
-          let loginRes = await login()
-          while(!loginRes){
-            console.log('登录失败,5s 后重试')
-            await new Promise(resolve => setTimeout(resolve, 5000))
-            loginRes = await login()
-          }
+          let loginRes = await loopLogin()
           if (loginRes) {
             botEmitter.emit('login', {
               content: '登录成功'
@@ -166,6 +161,15 @@ export const startServe = (option) => {
   // app.use(bodyParser());
 
 
+  async function loopLogin() {
+    let loginRes = await login()
+    while (!loginRes) {
+      console.log('登录失败,5s 后重试')
+      await new Promise(resolve => setTimeout(resolve, 5000))
+      loginRes = await login()
+    }
+    return loginRes
+  }
 
   return new Promise((resolve, reject) => {
     app.listen(option.port, async (err) => {
@@ -187,16 +191,18 @@ export const startServe = (option) => {
 
         if(isOnline.ret === 200 && isOnline.data === false){
           console.log('未登录')
-          let loginRes = await login()
-          while(!loginRes){
-            console.log('登录失败,5s 后重试')
-            await new Promise(resolve => setTimeout(resolve, 5000))
-            loginRes = await login()
-          }
+          await loopLogin();
         }
         setCached(true)
         let myInfo = await getMyInfo()
         const dbName = option.db_path + myInfo.wxid + '.db'
+        if (!dbName) {
+          // 说明未登录 跳转登录
+          ds.appid = ''
+          ds.token = ''
+          ds.save()
+          await loopLogin();
+        }
         if(!db.exists(dbName)){
           console.log('创建本地数据库，启用缓存')
           db.connect(dbName)
